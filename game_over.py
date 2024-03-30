@@ -1,4 +1,5 @@
 import numpy as np
+from valid_moves import *
 
 # determine if all on other side
 def check_opposite(board, player):
