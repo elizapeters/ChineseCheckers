@@ -23,8 +23,7 @@ def game_over(board, player1, player2):
         return True, f"Player {player1} wins!"
     elif check_opposite(board, player2):
         return True, f"Player {player2} wins!"
-    
-    if no_valid_moves_left(board, player1, player2):
+    elif no_valid_moves_left(board, player1, player2):
         return True, f"Player {player2} wins!"
     elif no_valid_moves_left(board, player2, player1):
         return True, f"Player {player1} wins!"
