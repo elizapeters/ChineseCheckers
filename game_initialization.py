@@ -48,7 +48,6 @@ def spaces(board):
         board[8][i] = 0
 
 
-
 def boardBuilder():
     board = np.ones((17,25), dtype=int)*-1
     topAndBottom(board, [0, 1, 2, 3], 1)
