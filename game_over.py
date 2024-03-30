@@ -17,6 +17,15 @@ def no_valid_moves_left(board, player, opponent):
                     return False
     return True
 
+def no_valid_moves_left(board, player, opponent):
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == player:
+                if valid_moves(board, (i, j), player, opponent):
+                    return False
+    print(f"Player {player} has no valid moves left.")
+    return True
+
 
 def game_over(board, player1, player2):
     if check_opposite(board, player1):
