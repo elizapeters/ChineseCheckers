@@ -8,15 +8,6 @@ def check_opposite(board, player):
     elif player == 6:  # Player 6 should reach the top side
         return np.all(board[:5] == player)
 
-# Function to determine if a player has no valid moves left
-def no_valid_moves_left(board, player, opponent):
-    for i in range(len(board)):
-        for j in range(len(board[i])):
-            if board[i][j] == player:
-                if valid_moves(board, (i, j), player, opponent):
-                    return False
-    return True
-
 def no_valid_moves_left(board, player, opponent):
     for i in range(len(board)):
         for j in range(len(board[i])):
