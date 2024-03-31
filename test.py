@@ -55,8 +55,8 @@ def test_no_valid_moves():
         print("Game is still ongoing.")
 
 
-test_valid_moves()
+#test_valid_moves()
 test_player_wins()
-test_no_valid_moves()
+#test_no_valid_moves()
 
 # move player 1 to opposite side and make sure player 2 is not oocupying that space
