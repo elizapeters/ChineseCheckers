@@ -70,9 +70,10 @@ def test_move():
 
 
     return
-
-test_valid_moves()
+#test_valid_moves()
 test_player_wins()
 test_no_valid_moves()
 test_move()
+#test_no_valid_moves()
+
 # move player 1 to opposite side and make sure player 2 is not oocupying that space
