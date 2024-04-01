@@ -63,7 +63,7 @@ def valid_moves(board, node, player1, player2):
     
     row,col = node
     
-    length = len(board[0])
+    length = len(board)
     width = len(board[1])
     
     #Checking if you can move one to the right
