@@ -11,6 +11,7 @@ def distance(p1, p2):
     x2, y2 = p2
     return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
 
+
 def gen_gui(board):
     # Define colors
     WHITE = (255, 255, 255)
@@ -90,6 +91,16 @@ def gen_gui(board):
                     pygame.draw.circle(screen, color, (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2), MARBLE_RADIUS)
                     # Draw outline circle
                     pygame.draw.circle(screen, BLACK, (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2), MARBLE_RADIUS, OUTLINE_WIDTH)
+        
+        if (first_click is not None):
+            for i, row in enumerate(board):
+                for j, cell in enumerate(row):
+                    if (valid_moves(board, first_click, 6, 1).__contains__((i,j))):  
+                        color = (153,204,255)
+                        # Draw filled circle for marble
+                        pygame.draw.circle(screen, color, (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2), MARBLE_RADIUS)
+                        # Draw outline circle
+                        pygame.draw.circle(screen, BLACK, (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2), MARBLE_RADIUS, OUTLINE_WIDTH)
 
         # Update the display
         pygame.display.flip()
