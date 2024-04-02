@@ -48,6 +48,7 @@ def gen_gui(board):
         5: PURPLE,
         6: BLUE
     }
+    current_player = 1
     first_click = None
 
     # Main loop
@@ -67,13 +68,14 @@ def gen_gui(board):
                             circle_center = (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2)
                             if distance(mouse_pos, circle_center) <= MARBLE_RADIUS:
                                 m = board[i][j]
-                                if (m == 6 and first_click is None):
+                                if (m == current_player and first_click is None):
                                     first_click = (i,j)
                                 elif (first_click is not None and m == 0):
                                     second_click = (i,j)
-                                    if (valid_moves(board, first_click, 6).__contains__(second_click)):
+                                    if (valid_moves(board, first_click, current_player).__contains__(second_click)):
                                         print("movin off clicks")
                                         move(board, first_click[0], first_click[1], second_click[0], second_click[1])
+                                        current_player = current_player % 6 + 1
                                     else:
                                         print("Invalid move try again!")
                                     first_click = None
