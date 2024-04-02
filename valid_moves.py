@@ -11,8 +11,10 @@ def valid_space(player1, opponent, node):
     for i in range(len(base_nodes)):
                     if i != player1-1 and i != opponent:
                         for base_node in base_nodes[i]:
-                            if node == base_node:
-                                return False
+                            row, col = base_node
+                            curr_row, curr_col = node
+                            if curr_row == row and curr_col == col:
+                               return False
     return True    
 
 def check_jumps(board, node, player1, moves, opponent, length, width):
