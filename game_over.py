@@ -1,10 +1,66 @@
 import numpy as np
 from valid_moves import *
 
+def check_base_2(board, array):
+    times = 0 
+    for i in array:
+        if(i%2 == 0):
+            for j in range(1, times+1, 2):
+                if(board[i][3-j] != 2 or board[i][3+j] != 2):
+                    return False
+        else:
+            for j in range(0, times+1, 2):
+                if(board[i][3-j] != 2 or board[i][3+j] != 2):
+                    return False
+
+def check_base_3(board, array):
+    times = 0 
+    for i in array:
+        if(i%2 == 0):
+            for j in range(1, times+1, 2):
+                if(board[i][21-j] != 3 or board[i][21+j] != 3):
+                    return False
+        else:
+            for j in range(0, times+1, 2):
+                if(board[i][21-j] != 3 or board[i][21+j] != 3):
+                    return False    
+
+def check_base_4(board, array):
+    times = 0 
+    for i in array:
+        if(i%2 == 0):
+            for j in range(1, times+1, 2):
+                if(board[i][3-j] != 2 or board[i][3+j] != 2):
+                    return False
+        else:
+            for j in range(0, times+1, 2):
+                if(board[i][3-j] != 2 or board[i][3+j] != 2):
+                    return False
+                
+def check_base_5(board, array):
+    times = 0 
+    for i in array:
+        if(i%2 == 0):
+            for j in range(1, times+1, 2):
+                if(board[i][21-j] != 3 or board[i][21+j] != 3):
+                    return False
+        else:
+            for j in range(0, times+1, 2):
+                if(board[i][21-j] != 3 or board[i][21+j] != 3):
+                    return False          
+
 # determine if all on other side
 def check_opposite(board, player):
     if player == 1:  # Player 1 should reach the bottom side
         return np.all(board[12:] == player)
+    elif player == 2:
+        return check_base_5(board, [9, 10, 11, 12])
+    elif player == 3:
+        return check_base_4(board, [9, 10, 11, 12])
+    elif player == 4:
+        return check_base_3(board, [7, 6, 5, 4])
+    elif player == 5:
+        return check_base_2(board, [7, 6, 5, 4])
     elif player == 6:  # Player 6 should reach the top side
         return np.all(board[:5] == player)
 
@@ -18,14 +74,12 @@ def no_valid_moves_left(board, player, opponent):
     return True
 
 
-def game_over(board, player1, player2):
-    if check_opposite(board, player1):
-        return True, f"Player {player1} wins!"
-    elif check_opposite(board, player2):
-        return True, f"Player {player2} wins!"
-    if no_valid_moves_left(board, player1, player2):
-        return True, f"Player {player2} wins!"
-    elif no_valid_moves_left(board, player2, player1):
-        return True, f"Player {player1} wins!"
-    
+def game_over(board, players):
+    for player in players:
+        if check_opposite(board, player):
+            return True, f"Player {player} wins!"
+    for player in players:
+        opponent = [p for p in players if p != player][0]
+        if no_valid_moves_left(board, player, opponent):
+            return True, f"Player {opponent} wins!"
     return False, None
