@@ -71,7 +71,7 @@ def gen_gui(board):
                                     first_click = (i,j)
                                 elif (first_click is not None and m == 0):
                                     second_click = (i,j)
-                                    if (valid_moves(board, first_click, 6, 1).__contains__(second_click)):
+                                    if (valid_moves(board, first_click, 6).__contains__(second_click)):
                                         print("movin off clicks")
                                         move(board, first_click[0], first_click[1], second_click[0], second_click[1])
                                     else:
@@ -95,7 +95,7 @@ def gen_gui(board):
         if (first_click is not None):
             for i, row in enumerate(board):
                 for j, cell in enumerate(row):
-                    if (valid_moves(board, first_click, 6, 1).__contains__((i,j))):  
+                    if (valid_moves(board, first_click, 6).__contains__((i,j))):  
                         color = (153,204,255)
                         # Draw filled circle for marble
                         pygame.draw.circle(screen, color, (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2), MARBLE_RADIUS)
