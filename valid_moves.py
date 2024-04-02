@@ -76,7 +76,6 @@ def check_jumps(board, node, player1, moves, opponent, length, width):
 #Board - the board
 #node - the place you want to move from
 #player1 - number of player making the move
-#player2 - number of other player in the game
 def valid_moves(board, node, player1):
     #moves is a array of tuples representing locations on the board you can move to
     moves = []
