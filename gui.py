@@ -72,9 +72,9 @@ def gen_gui(board):
                         if (best_move is not None):
                             starting_tuple = (i,j)
                             start_end_dict[starting_tuple] = best_move
-                            move(board, i, j, best_move[0], best_move[1])
-            # opt_move = best_of_best(board,start_end_dict,player_turn)
-            # move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
+                            # move(board, i, j, best_move[0], best_move[1])
+            opt_move = best_of_best(board,start_end_dict,player_turn)
+            move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
             current_player = get_next_turn(current_player)
 
 

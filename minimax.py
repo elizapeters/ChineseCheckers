@@ -46,8 +46,19 @@ def get_best_move(board, moves, current, player):
 
 def best_of_best(board, dictionary, playerturn):
     distance_list = []
+    key_list = []
+    board_copy = board.copy()
+    # loops through every possible move combo
     for key in dictionary:
         val = dictionary[key]
-        board_copy = board.copy()
-    return
+        board = board_copy.copy()
+        key_list.append(key)
+        move(board, key[0], key[1], val[0], val[1])
+        updated_distance = calculate_distance(board, playerturn)
+        distance_list.append(updated_distance)
+
+    min_index = distance_list.index(min(distance_list))
+    opt_starting_node = key_list[min_index]
+    opt_ending_node = dictionary[opt_starting_node]
+    return opt_starting_node, opt_ending_node
 
