@@ -64,11 +64,11 @@ def check_opposite(board, player):
     elif player == 6:  # Player 6 should reach the top side
         return np.all(board[:5] == player)
 
-def no_valid_moves_left(board, player, opponent):
+def no_valid_moves_left(board, player):
     for i in range(len(board)):
         for j in range(len(board[i])):
             if board[i][j] == player:
-                if valid_moves(board, (i, j), player, opponent):
+                if valid_moves(board, (i, j), player):
                     return False
     print(f"Player {player} has no valid moves left.")
     return True
@@ -78,8 +78,10 @@ def game_over(board, players):
     for player in players:
         if check_opposite(board, player):
             return True, f"Player {player} wins!"
-    for player in players:
-        opponent = [p for p in players if p != player][0]
-        if no_valid_moves_left(board, player, opponent):
-            return True, f"Player {opponent} wins!"
+    # Check for players with no valid moves left
+    no_valid_moves_players = [player for player in players if no_valid_moves_left(board, player)]
+    
+    # If all players have no valid moves left, no one wins (draw)
+    if len(no_valid_moves_players) == len(players):
+        return True, "It's a draw!"
     return False, None
