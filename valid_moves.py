@@ -23,7 +23,7 @@ def check_jumps(board, node, player1, moves, opponent, length, width):
     #and if not part of the other bases that is not you or your opponent
     
     #If spot to the right is occupied and the spot after is empty
-    if (col + 2 < width -1  and col + 4 < width -1): 
+    if (col + 2 < width  and col + 4 < width): 
         next_node = board[row][col+4]
         if (board[row][col+2] > 0 and board[row][col+2] < 7 and next_node == 0 and valid_space(player1, opponent, (row, col+4))):  
             jumpboard = board.copy()
@@ -40,7 +40,7 @@ def check_jumps(board, node, player1, moves, opponent, length, width):
             moves.append((row, col-4))
             check_jumps(jumpboard, (row, col-4), player1, moves, opponent, length, width)
     #If spot to the top right is occupied and the spot after is empty
-    if (row - 1 >= 0 and col + 1 < width - 1  and row - 2 >= 0 and col + 2 < width -1):
+    if (row - 1 >= 0 and col + 1 < width   and row - 2 >= 0 and col + 2 < width):
         next_node = board[row-2][col+2]
         if (board[row-1][col+1] > 0 and board[row-1][col+1] < 7 and next_node == 0 and valid_space(player1, opponent, (row-2, col+2))):
             jumpboard = board.copy()
@@ -56,7 +56,7 @@ def check_jumps(board, node, player1, moves, opponent, length, width):
             moves.append((row-2, col-2))
             check_jumps(jumpboard, (row-2, col-2), player1, moves, opponent, length, width)
     #If spot to the bottom left is occupied and the spot after is empty
-    if (row + 1 < length - 1 and col - 1 >= 0  and row + 2 < length - 1 and col - 2 >= 0): 
+    if (row + 1 < length and col - 1 >= 0  and row + 2 < length and col - 2 >= 0): 
         next_node = board[row+2][col-2]
         if (board[row+1][col-1] > 0 and board[row+1][col-1] < 7 and next_node == 0 and valid_space(player1, opponent, (row+2, col-2))):
             jumpboard = board.copy()
@@ -64,7 +64,7 @@ def check_jumps(board, node, player1, moves, opponent, length, width):
             moves.append((row+2, col-2))
             check_jumps(jumpboard, (row+2, col-2), player1, moves, opponent, length, width)
     #If spot to the bottom right is occupied and the spot after is empty
-    if (row + 1 < length - 1 and col + 1 < width -1  and row + 2 < length - 1 and col + 2 < width -1):
+    if (row + 1 < length and col + 1 < width   and row + 2 < length and col + 2 < width):
         next_node = board[row+2][col+2]
         if (board[row+1][col+1] > 0 and board[row+1][col+1] < 7 and next_node == 0 and valid_space(player1, opponent, (row+2, col+2))):
             jumpboard = board.copy()
@@ -92,7 +92,7 @@ def valid_moves(board, node, player1):
     width  = len(board[1])
     
     #Checking if you can move one to the right
-    if (col + 2 < width -1):
+    if (col + 2 < width ):
         next_node = board[row][col+2]
         if next_node == 0 and valid_space(player1, opponent, (row, col+2)):
             moves.append((row, col+2))
@@ -107,17 +107,17 @@ def valid_moves(board, node, player1):
         if next_node == 0 and valid_space(player1, opponent, (row-1, col-1)):
             moves.append((row-1, col-1))
     #Checking if you can move up right
-    if (row - 1 >= 0 and col + 1 < width -1):
+    if (row - 1 >= 0 and col + 1 < width ):
         next_node = board[row-1][col+1]
         if next_node == 0 and valid_space(player1, opponent, (row-1, col+1)):
             moves.append((row-1, col+1))
     #Checking if you can move down left
-    if (row + 1 < length - 1 and col - 1  >= 0):
+    if (row + 1 < length and col - 1  >= 0):
         next_node = board[row+1][col-1]
         if next_node == 0 and valid_space(player1, opponent, (row+1, col-1)):
             moves.append((row+1, col-1))
     #Checking if you can move down right
-    if (row + 1 < length - 1 and col + 1 < width -1):
+    if (row + 1 < length and col + 1 < width):
         next_node = board[row+1][col+1]
         if next_node == 0 and valid_space(player1, opponent, (row+1, col+1)):
             moves.append((row+1, col+1))
