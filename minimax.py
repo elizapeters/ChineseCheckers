@@ -18,7 +18,6 @@ def calculate_distance(board, player):
                 cell = (i,j)
                 if (board[cell] == player):
                     distance = distance_to_goal_node(goal_node, cell)
-                    print("distance for single node to goal node", distance)
                     total_distance += distance
 
     return total_distance
