@@ -75,6 +75,10 @@ def gen_gui(board):
                             # move(board, i, j, best_move[0], best_move[1])
             opt_move = best_of_best(board,start_end_dict, current_player)
             move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
+            if game_over(board):
+                print("GAME OVER!!")
+                print("Player ", current_player, " Wins!")
+                break
             current_player = get_next_turn(current_player)
 
 
@@ -99,6 +103,11 @@ def gen_gui(board):
                                     if (valid_moves(board, first_click, 6).__contains__(second_click)):
                                         print("movin off clicks")
                                         move(board, first_click[0], first_click[1], second_click[0], second_click[1])
+                                        if game_over(board):
+                                            print("GAME OVER!!")
+                                            print("Player ", current_player, " Wins!")
+                                            break
+                                        
                                         current_player = get_next_turn(current_player)
                                     else:
                                         print("Invalid move try again!")

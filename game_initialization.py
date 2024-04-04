@@ -5,10 +5,12 @@ def topAndBottom(board, array, currentVal):
     for i in array:
         if(i%2 == 0):
             for j in range(0, times+1, 2):
+               # print("what",currentVal)
                 board[i][12-j] = currentVal
                 board[i][12+j] = currentVal
         else:
             for j in range(1, times+1, 2):
+               # print("this", currentVal)
                 board[i][12-j] = currentVal
                 board[i][12+j] = currentVal
         times = times+1
@@ -20,21 +22,25 @@ def middleTri(board, array, firstVal, secondVal):
         maxfill = 21
         if(i%2 == 0):
             for j in range(1, times+1, 2):
+                #print("what",firstVal)
                 board[i][3-j] = firstVal
                 board[i][3+j] = firstVal
                 minFill = 3+j +2
         else:
             for j in range(0, times+1, 2):
+               # print("what",firstVal)
                 board[i][3-j] = firstVal
                 board[i][3+j] = firstVal
                 minFill = 3+j +2
         if(i%2 == 0):
             for j in range(1, times+1, 2):
+               # print("this",secondVal)
                 board[i][21-j] = secondVal
                 board[i][21+j] = secondVal
                 maxfill = 21-j-2
         else:
             for j in range(0, times+1, 2):
+                #print("this",secondVal)
                 board[i][21-j] = secondVal
                 board[i][21+j] = secondVal
                 maxfill = 21-j-2
