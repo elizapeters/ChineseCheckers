@@ -60,7 +60,7 @@ def gen_gui(board):
     # Main loop
     while True:
         # Handle events
-        if (current_player != 3):
+        if (current_player != 6):
             #current_player = get_next_turn(current_player)
             start_end_dict = {}
             # do the best move for the ai
@@ -96,11 +96,11 @@ def gen_gui(board):
                             circle_center = (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2)
                             if distance(mouse_pos, circle_center) <= MARBLE_RADIUS:
                                 m = board[i][j]
-                                if (m == 3 and first_click is None):
+                                if (m == 6 and first_click is None):
                                     first_click = (i,j)
                                 elif (first_click is not None and m == 0):
                                     second_click = (i,j)
-                                    if (valid_moves(board, first_click, 3).__contains__(second_click)):
+                                    if (valid_moves(board, first_click, 6).__contains__(second_click)):
                                         print("movin off clicks")
                                         move(board, first_click[0], first_click[1], second_click[0], second_click[1])
                                         if game_over(board):
@@ -130,7 +130,7 @@ def gen_gui(board):
         if (first_click is not None):
             for i, row in enumerate(board):
                 for j, cell in enumerate(row):
-                    if (valid_moves(board, first_click, 3).__contains__((i,j))):  
+                    if (valid_moves(board, first_click, 6).__contains__((i,j))):  
                         color = (153,204,255)
                         pygame.draw.circle(screen, color, (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2), MARBLE_RADIUS)
                         pygame.draw.circle(screen, BLACK, (PADDING + j * CELL_SIZE + CELL_SIZE // 2, PADDING + i * CELL_SIZE + CELL_SIZE // 2), MARBLE_RADIUS, OUTLINE_WIDTH)
