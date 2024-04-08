@@ -25,7 +25,7 @@ def calculate_distance(board, player):
     
     opponent = opponents[player-1]
     i = 1
-    while board[goal_node] == player:
+    while board[goal_node] == player and i < len(base_nodes_rank[0]):
         goal_node = base_nodes_rank[opponent][i]
         i += 1
     
