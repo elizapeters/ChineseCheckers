@@ -95,7 +95,7 @@ def gen_gui(starting_board):
             current_player = get_next_turn(current_player)
         if(current_player != 7):
             print("PLAYER ", current_player)
-            eval, move_to_move = minimax(board, 2, True, float('-inf'), float('inf'), current_player, locations.copy())
+            eval, move_to_move = minimax(board, 1, True, float('-inf'), float('inf'), current_player, locations.copy())
             move(board, move_to_move[0][0], move_to_move[0][1], move_to_move[1][0], move_to_move[1][1])
             findAndReplaceMarb(locations, move_to_move, current_player)
             current_player = get_next_turn(current_player)
