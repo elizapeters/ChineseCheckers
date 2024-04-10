@@ -17,6 +17,17 @@ def get_next_turn(current_turn):
         return 1
     return current_turn+1
 
+def display_winner(screen, winner):
+    BLACK = (0, 0, 0)
+    font = pygame.font.Font(None, 36)
+    text_surface = font.render(f"Player {winner} Wins!", True, BLACK)
+    text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+    screen.blit(text_surface, text_rect)
+    i = 0
+    while (i < 500):
+        pygame.display.flip()
+        i = i + 1
+        
 def gen_gui(board):
     # Define colors
     WHITE = (255, 255, 255)
@@ -85,6 +96,15 @@ def gen_gui(board):
             if game_over(board):
                 print("GAME OVER!!")
                 print("Player ", current_player, " Wins!")
+                screen.fill(WHITE)
+                font = pygame.font.Font(None, 36)
+                text_surface = font.render(f"Player {current_player} Wins!", True, BLACK)
+                text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+                screen.blit(text_surface, text_rect)
+                i = 0
+                while (i < 500):
+                    pygame.display.flip()
+                    i = i + 1
                 break
             current_player = get_next_turn(current_player)
             #current_player = 6
@@ -113,6 +133,7 @@ def gen_gui(board):
                                         if game_over(board):
                                             print("GAME OVER!!")
                                             print("Player ", current_player, " Wins!")
+                                            display_winner(screen, current_player)
                                             break
                                         
                                         current_player = get_next_turn(current_player)
@@ -147,6 +168,7 @@ def gen_gui(board):
 
         # Update the display
         pygame.display.flip()
+    pygame
 
 board = boardBuilder()
 gen_gui(board)
