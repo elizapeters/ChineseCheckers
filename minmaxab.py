@@ -28,9 +28,9 @@ def minimax(board, depth, maximizing_player, alpha, beta, player, locations):
             marb = locations[player-1][i]
             possible_moves = valid_moves(board, marb, player)
             for one_move in possible_moves:
-                all_moves.append((locations[player-1][i], one_move))
+                all_moves.append(((locations[player-1][i][0], locations[player-1][i][1]), one_move))
 
-        #random.shuffle(all_moves)
+        random.shuffle(all_moves)
         frozen_nodes = find_frozen_nodes(board, player)
         all_moves = [pair for pair in all_moves if not frozen_nodes.__contains__(pair[0])]
         for start, end in all_moves: 
