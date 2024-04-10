@@ -5,6 +5,7 @@ from game_initialization import *
 from game_over import *
 from move import *
 from minimax import *
+from minmaxab import *
 
 def distance(p1, p2):
     """Calculate the distance between two points."""
@@ -17,7 +18,12 @@ def get_next_turn(current_turn):
         return 1
     return current_turn+1
 
-def gen_gui(board):
+
+
+def gen_gui(starting_board):
+    board = starting_board[0]
+    locations = starting_board[1]
+    print(locations)
     # Define colors
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -60,7 +66,7 @@ def gen_gui(board):
     # Main loop
     while True:
         # Handle events
-        if (current_player != 6):
+        if (current_player != 6 and current_player != 5):
             #current_player = get_next_turn(current_player)
             start_end_dict = {}
             # do the best move for the ai
@@ -75,12 +81,22 @@ def gen_gui(board):
                             # move(board, i, j, best_move[0], best_move[1])
             opt_move = best_of_best(board,start_end_dict, current_player)
             move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
+            findAndReplaceMarb(locations, opt_move, current_player)
             if game_over(board):
                 print("GAME OVER!!")
                 print("Player ", current_player, " Wins!")
                 break
             current_player = get_next_turn(current_player)
-
+        if(current_player == 5):
+            print("PLAYER 5")
+            eval, move_to_move = minimax(board, 2, True, float('-inf'), float('inf'), 5, locations.copy())
+            move(board, move_to_move[0][0], move_to_move[0][1], move_to_move[1][0], move_to_move[1][1])
+            findAndReplaceMarb(locations, move_to_move, current_player)
+            current_player = get_next_turn(current_player)
+            if game_over(board):
+                print("GAME OVER!!")
+                print("Player ", current_player, " Wins!")
+                break
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
