@@ -27,7 +27,6 @@ def gen_gui(board):
     BLUE = (3, 65, 252)
     PURPLE = (247, 118, 5)
     PINK = (255, 0, 247)
-    player_turn = 6
 
     # Define constants for the game board
     CELL_SIZE = 30
@@ -61,26 +60,34 @@ def gen_gui(board):
     while True:
         # Handle events
         if (current_player != 6):
+            print("PLAYER ", current_player)
             #current_player = get_next_turn(current_player)
             start_end_dict = {}
+            all_moves = []
             # do the best move for the ai
             for i, row in enumerate(board):
                 for j, cell in enumerate(row):
                     if (board[i][j] == current_player):
-                        all_moves = valid_moves(board, (i,j), current_player)
-                        best_move = get_best_move(board, all_moves, (i,j), current_player)
-                        if (best_move is not None):
-                            starting_tuple = (i,j)
-                            start_end_dict[starting_tuple] = best_move
-                            # move(board, i, j, best_move[0], best_move[1])
-            opt_move = best_of_best(board,start_end_dict, current_player)
+                        
+                        possible_moves = valid_moves(board, (i,j), current_player)
+                        for one_move in possible_moves:
+                            all_moves.append(((i,j),one_move))
+                        #all_moves = valid_moves(board, (i,j), current_player)
+                        #best_move = get_best_move(board, all_moves, (i,j), current_player)
+                        # if (best_move is not None):
+                        #     starting_tuple = (i,j)
+                        #     start_end_dict[starting_tuple] = best_move
+                        #     move(board, i, j, best_move[0], best_move[1])
+            
+            opt_move = best_move(board, all_moves, current_player)
+            #opt_move = best_of_best(board,start_end_dict, current_player)
             move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
             if game_over(board):
                 print("GAME OVER!!")
                 print("Player ", current_player, " Wins!")
                 break
             current_player = get_next_turn(current_player)
-
+            #current_player = 6
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -109,8 +116,11 @@ def gen_gui(board):
                                             break
                                         
                                         current_player = get_next_turn(current_player)
+                                        #current_player = 1
                                     else:
                                         print("Invalid move try again!")
+                                    first_click = None
+                                else:
                                     first_click = None
                                 print("Clicked on circle at:", (i, j))  # Replace this with your desired action
 
