@@ -18,7 +18,7 @@ def findAndReplaceMarb(locations, optMove, player):
 def minimax(board, depth, maximizing_player, alpha, beta, player, locations):
     if depth == 0 or game_over(board):
         goal_node = get_goal_node(board, player)
-        return -1* calculate_distance(board, player, goal_node)/10, (0,0,0,0)
+        return -1* calculate_distance(board, player, goal_node), (0,0,0,0)
 
     if maximizing_player:
         all_moves = []
