@@ -59,14 +59,13 @@ def gen_gui(starting_board):
         5: PURPLE,
         6: BLUE
     }
-    current_player = 6
+    current_player = random.randint(1, 6)
     first_click = None
 
     # Main loop
     while True:
         # Handle events
-        if (current_player == 7):
-            print("PLAYER ", current_player)
+        if (current_player < 4):
             #current_player = get_next_turn(current_player)
             start_end_dict = {}
             all_moves = []
@@ -93,8 +92,7 @@ def gen_gui(starting_board):
                 print("Player ", current_player, " Wins!")
                 break
             current_player = get_next_turn(current_player)
-        if(current_player != 7):
-            print("PLAYER ", current_player)
+        if(current_player >= 4):
             prev_goal_node = get_goal_node(board, current_player)
             eval, move_to_move = minimax(board.copy(), 2, True, float('-inf'), float('inf'), current_player, copy.deepcopy(locations), prev_goal_node)
             move(board, move_to_move[0][0], move_to_move[0][1], move_to_move[1][0], move_to_move[1][1])
@@ -163,6 +161,22 @@ def gen_gui(starting_board):
 
         # Update the display
         pygame.display.flip()
+    return current_player
 
-board = boardBuilder()
-gen_gui(board)
+winners = []
+for i in range(500):
+    board = boardBuilder()
+    winner = gen_gui(board)
+    winners.append(winner)
+
+print(winners)
+astar_count = 0
+minimax_count = 0
+for num in winners:
+    if num < 4:
+        astar_count += 1
+    else:
+        minimax_count += 1
+print("Astar won ", astar_count, " times")
+print("Minimax won ", minimax_count, " times")
+
