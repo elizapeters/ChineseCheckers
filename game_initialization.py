@@ -47,8 +47,9 @@ def middleTri(board, array, firstVal, secondVal, starting_spots):
                 maxfill = 21-j-2
                 if j == 0:
                     starting_spots[firstVal-1][index1] = (i, 3)
-                    starting_spots[secondVal-1][index2] = (i, 21-j)
+                    starting_spots[secondVal-1][index2] = (i, 21)
                     index1 = index1 +1 
+                    index2 = index2 +1
                 else :
                     starting_spots[firstVal-1][index1] = (i, 3-j)
                     index1 = index1 +1
@@ -73,6 +74,7 @@ def middleTri(board, array, firstVal, secondVal, starting_spots):
                     starting_spots[firstVal-1][index1] = (i, 3)
                     starting_spots[secondVal-1][index2] = (i, 21-j)
                     index1 = index1 +1 
+                    index2 = index2 +1
                 else :
                     starting_spots[firstVal-1][index1] = (i, 3-j)
                     index1 = index1 +1
