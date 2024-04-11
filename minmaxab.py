@@ -14,7 +14,16 @@ def findAndReplaceMarb(locations, opter, player):
             locations[player-1][i] = (opter[1][0], opter[1][1])
             return
 
-
+def findAllMoves(board, locations, player):
+    return_list = []
+    for i in range(10):
+        x, y = locations[player][i]
+        possible_moves = valid_moves(board, (x, y), player)
+        for one_move in possible_moves:
+            return_list.append(((x, y), (one_move[0], one_move[1])))
+        frozen_nodes = find_frozen_nodes(board, player)
+        return_list = [pair for pair in return_list if not frozen_nodes.__contains__(pair[0])]
+    return return_list
 
 # Minimax with Alpha-Beta pruning
 def minimax(board, depth, maximizing_player, alpha, beta, player, locations, prev_goal_node):
@@ -33,8 +42,6 @@ def minimax(board, depth, maximizing_player, alpha, beta, player, locations, pre
         all_moves = [pair for pair in all_moves if not frozen_nodes.__contains__(pair[0])]
         max_eval = float('-inf')
         max_move = all_moves[0]
-        distance_list = []
-        goal_node = get_goal_node(board, player)
         board_copy = board.copy()
         for pairing in all_moves:
             start_node = pairing[0]
@@ -53,25 +60,34 @@ def minimax(board, depth, maximizing_player, alpha, beta, player, locations, pre
         return max_eval, max_move
 
     else:
+        all_players_all_moves = []
+        for p in range(len(locations)):
+            if(p != player-1):
+                all_players_all_moves.append(findAllMoves(board, locations, p))
         min_eval = float('inf')
         min_move = (0, 0, 0, 0)
-        for i in range(len(locations)):
-            if i != player-1:
-                for j in range(len(locations[i])):
-                    marb = locations[i][j]
-                    pos_moves = valid_moves(board, marb, i+1)
-                    frozen_nodes = find_frozen_nodes(board, i+1)
-                    all_moves = [pair for pair in pos_moves if not frozen_nodes.__contains__(pair)]
-                    for x, y in all_moves:
-                        boardc = board.copy()
-                        move(boardc, marb[0], marb[1], x, y)
-                        locationsc = copy.deepcopy(locations)
-                        findAndReplaceMarb(locationsc, (marb, (x, y)), i+1)
-                        evalu, next_move = minimax(boardc, depth - 1, True, alpha, beta, player, locationsc)
-                        if evalu < min_eval :
-                            min_move = (marb, (x, y))
-                            min_eval = min(min_eval, evalu)
-                            beta = min(beta, evalu)
+        for first in all_players_all_moves[0]:
+            for second in all_players_all_moves[1]:
+                for third in all_players_all_moves[2]:
+                    for fourth in all_players_all_moves[3]:
+                        for fifth in all_players_all_moves[4]:
+                            boardc = board.copy()
+                            locationsc = copy.deepcopy(locations)
+                            move(boardc, first[0][0], first[0][1], first[1][0], first[1][1])
+                            move(boardc, second[0][0], second[0][1], second[1][0], second[1][1])
+                            move(boardc, third[0][0], third[0][1], third[1][0], third[1][1])
+                            move(boardc, fourth[0][0], fourth[0][1], fourth[1][0], fourth[1][1])
+                            move(boardc, fourth[0][0], fourth[0][1], fourth[1][0], fourth[1][1])
+                            findAndReplaceMarb(locationsc, ((first[0][0], first[0][1]), (first[1][0], first[1][1])), boardc[first[1][0]][first[1][1]])
+                            findAndReplaceMarb(locationsc, ((second[0][0], second[0][1]), (second[1][0], second[1][1])), boardc[second[1][0]][second[1][1]])
+                            findAndReplaceMarb(locationsc, ((third[0][0], third[0][1]), (third[1][0], third[1][1])), boardc[third[1][0]][third[1][1]])
+                            findAndReplaceMarb(locationsc, ((fourth[0][0], fourth[0][1]), (fourth[1][0], fourth[1][1])), boardc[fourth[1][0]][fourth[1][1]])
+                            findAndReplaceMarb(locationsc, ((fifth[0][0], fifth[0][1]), (fifth[1][0], fifth[1][1])), boardc[fifth[1][0]][fifth[1][1]])
+                            evalu, next_move = minimax(boardc, depth - 1, True, alpha, beta, player, locationsc, get_goal_node(board, player))
+                            if evalu < min_eval :
+                                min_move = next_move
+                                min_eval = min(min_eval, evalu)
+                                beta = min(beta, evalu)
                         if beta >= alpha:
                             break
                     if beta >= alpha:
