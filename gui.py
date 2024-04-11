@@ -65,7 +65,7 @@ def gen_gui(starting_board):
     # Main loop
     while True:
         # Handle events
-        if (current_player != 7):
+        if (current_player == 7):
             print("PLAYER ", current_player)
             #current_player = get_next_turn(current_player)
             start_end_dict = {}
@@ -93,9 +93,10 @@ def gen_gui(starting_board):
                 print("Player ", current_player, " Wins!")
                 break
             current_player = get_next_turn(current_player)
-        if(current_player == 7):
+        if(current_player != 7):
             print("PLAYER ", current_player)
-            eval, move_to_move = minimax(board, 1, True, float('-inf'), float('inf'), current_player, locations.copy())
+            prev_goal_node = get_goal_node(board, current_player)
+            eval, move_to_move = minimax(board.copy(), 1, True, float('-inf'), float('inf'), current_player, copy.deepcopy(locations), prev_goal_node)
             move(board, move_to_move[0][0], move_to_move[0][1], move_to_move[1][0], move_to_move[1][1])
             findAndReplaceMarb(locations, move_to_move, current_player)
             current_player = get_next_turn(current_player)
