@@ -14,7 +14,9 @@ def findAndReplaceMarb(locations, opter, player):
             locations[player-1][i] = (opter[1][0], opter[1][1])
             return
 
+
 def findAllMoves(board, locations, player):
+    goal_node = get_goal_node(board, player)
     return_list = []
     for i in range(10):
         x, y = locations[player][i]
@@ -23,6 +25,8 @@ def findAllMoves(board, locations, player):
             return_list.append(((x, y), (one_move[0], one_move[1])))
         frozen_nodes = find_frozen_nodes(board, player)
         return_list = [pair for pair in return_list if not frozen_nodes.__contains__(pair[0])]
+    return_list.sort(key=lambda item: distance_to_goal_node(goal_node, (item[1][0], item[1][1])))
+    return_list = return_list[:2]
     return return_list
 
 # Minimax with Alpha-Beta pruning
