@@ -18,6 +18,7 @@ base_nodes_rank_reverse = [[(3, 15), (3, 13), (3, 11), (3, 9), (2, 14), (2, 12),
 [(9, 21), (10, 20), (11, 19), (12, 18), (10, 22), (11, 21), (12, 20), (11, 23), (12, 22), (12, 24)],
 [(13, 15), (13, 13), (13, 11), (13, 9), (14, 14), (14, 12), (14, 10), (15, 13), (15, 11), (16, 12)]]
 
+# returns the nodes in the triangle that are frozen
 def find_frozen_nodes(board, player):
     frozen_nodes = []
     opponents = [5,4,3,2,1,0]
@@ -28,7 +29,7 @@ def find_frozen_nodes(board, player):
         frozen_nodes.append(n)
     return frozen_nodes
     
-
+# get the farthest back node that is not taken by a marble
 def get_goal_node(board, player):
     opponents = [5,4,3,2,1,0]
     opponent = opponents[player-1]
@@ -41,11 +42,10 @@ def get_goal_node(board, player):
 def distance_to_goal_node(goal, current):
     x1, y1 = goal
     x2, y2 = current
-    return math.sqrt(((x2 - x1)/2) ** 2 + (y2 - y1) ** 2)
+    return math.sqrt(((x2 - x1)) ** 2 + (y2 - y1) ** 2)
 
+# get the total distance for each marble to the goal node
 def calculate_distance(board, player, goal_node):
-    # goal_node_list = [(16,12),(12,24),(12,0),(4,24),(4,0),(0,12)]
-    # goal_node = goal_node_list[player-1]
     total_distance = 0
     for i in range(len(board)):
             for j in range(len(board[0])):
@@ -55,80 +55,23 @@ def calculate_distance(board, player, goal_node):
                     total_distance += distance
     return total_distance
 
+# find the move that minimizes the total distance
 def best_move(board, all_moves, player):
     distance_list = []
     goal_node = get_goal_node(board, player)
-    # goal_node = base_nodes_rank[0]
     board_copy = board.copy()
     frozen_nodes = find_frozen_nodes(board, player)
-    # numbers = [num for num in numbers if num != 2]
     all_moves = [pair for pair in all_moves if not frozen_nodes.__contains__(pair[0])]
     
     for pairing in all_moves:
         start_node = pairing[0]
         end_node = pairing[1]
         boardcc = board_copy.copy()
-        # print(player,"moving from ", start_node, " to ", end_node)
         move(boardcc, start_node[0], start_node[1], end_node[0], end_node[1])
         updated_distance = calculate_distance(boardcc, player, goal_node)
-        # print("total distance if I made said move is ", updated_distance)
         distance_list.append(updated_distance)
-    #print("list: ", distance_list)
     min_index = distance_list.index(min(distance_list))
-    print("chose action: ", min_index)
     opt_pairing = all_moves[min_index]
     opt_starting_node = opt_pairing[0]
     opt_ending_node = opt_pairing[1]
     return opt_starting_node, opt_ending_node
-
-# def get_best_move(board, moves, current, player):
-#     print("getting best move from", current, "player", player)
-#     opponents = [5,4,3,2,1,0]
-#     opponent = opponents[player-1]
-#     goal_node = base_nodes_rank[opponent][0]
-#     for node in base_nodes_rank[opponent]:
-#         if board[node] != player:
-#             goal_node = node
-#     board_copy = board.copy()
-#     potential_move_distances = []
-#     for valid_move in moves:
-#         print("hitting a valid move")
-#         boardcc = board_copy.copy()
-#         move(boardcc, current[0], current[1], valid_move[0], valid_move[1])
-#         updated_distance = calculate_distance(boardcc, player, goal_node)
-#         potential_move_distances.append(updated_distance)
-
-#     if not potential_move_distances:
-#         return None
-#     print("list", potential_move_distances)
-#     min_index = potential_move_distances.index(min(potential_move_distances))
-#     best_move = moves[min_index]
-#     # get the index of the min in potential omve distances
-#     # return the corresponding move fro moves
-#     # this function returns the best slot that the selected marble should go tom
-#     return best_move
-
-# def best_of_best(board, dictionary, playerturn):
-#     distance_list = []
-#     key_list = []
-#     opponents = [5,4,3,2,1,0]
-#     opponent = opponents[playerturn-1]
-#     goal_node = base_nodes_rank[opponent][0]
-#     for node in base_nodes_rank[opponent]:
-#         if board[node] != playerturn:
-#             goal_node = node
-#     board_copy = board.copy()
-#     # loops through every possible move combo
-#     for key in dictionary:
-#         val = dictionary[key]
-#         boardcc = board_copy.copy()
-#         key_list.append(key)
-#         move(boardcc, key[0], key[1], val[0], val[1])
-#         updated_distance = calculate_distance(boardcc, playerturn, goal_node)
-#         distance_list.append(updated_distance)
-
-#     min_index = distance_list.index(min(distance_list))
-#     opt_starting_node = key_list[min_index]
-#     opt_ending_node = dictionary[opt_starting_node]
-#     return opt_starting_node, opt_ending_node
-
