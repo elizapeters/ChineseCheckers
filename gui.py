@@ -60,6 +60,7 @@ def gen_gui(starting_board):
         6: BLUE
     }
     current_player = random.randint(1, 6)
+    first_play = current_player
     first_click = None
 
     # Main loop
@@ -161,10 +162,10 @@ def gen_gui(starting_board):
 
         # Update the display
         pygame.display.flip()
-    return current_player
+    return (first_play, current_player)
 
 winners = []
-for i in range(500):
+for i in range(10):
     board = boardBuilder()
     winner = gen_gui(board)
     winners.append(winner)
@@ -172,7 +173,7 @@ for i in range(500):
 print(winners)
 astar_count = 0
 minimax_count = 0
-for num in winners:
+for start, num in winners:
     if num < 4:
         astar_count += 1
     else:

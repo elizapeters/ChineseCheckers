@@ -97,3 +97,20 @@ def minimax(board, depth, maximizing_player, alpha, beta, player, locations, pre
                     if beta >= alpha:
                         break
         return min_eval, min_move
+    
+'''
+def cheaterAlgorithm(board, depth, player, locations, prev_goal_node):
+    all_moves = []
+    if depth == 0 or game_over(board):
+        
+    for p in locations:
+        if(p+1 != player):
+            for i in range(len(locations[p])):
+                x, y = locations[p][i]
+                possible_moves = valid_moves(board, (x, y), p+1)
+            for one_move in possible_moves:
+                all_moves.append(((x, y), (one_move[0], one_move[1])))
+            opt_move = best_move(board, all_moves, p+1)
+            move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
+            findAndReplaceMarb(locations, opt_move, p+1)
+            '''
