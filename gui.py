@@ -4,7 +4,7 @@ from valid_moves import *
 from game_initialization import *
 from game_over import *
 from move import *
-from minimax import *
+from greedy import *
 from minmaxab import *
 
 def distance(p1, p2):
@@ -17,8 +17,6 @@ def get_next_turn(current_turn):
     if (current_turn == 6):
         return 1
     return current_turn+1
-
-
 
 def gen_gui(starting_board):
     board = starting_board[0]
@@ -50,9 +48,9 @@ def gen_gui(starting_board):
     screen = pygame.display.set_mode(WINDOW_SIZE)
     pygame.display.set_caption("Chinese Checkers")
     COLORS = {
-        -1: BLACK,  # not included in board
-        0: WHITE,   # empty
-        1: RED,     # Player 1's marble color
+        -1: BLACK,
+        0: WHITE,
+        1: RED,
         2: PINK,
         3: GREEN,
         4: YELLOW,
@@ -65,10 +63,8 @@ def gen_gui(starting_board):
 
     # Main loop
     while True:
-        # Handle events
-        if (current_player < 4):
-            #current_player = get_next_turn(current_player)
-            start_end_dict = {}
+        # This is for AI playing the greedy algorithm
+        if (current_player != 6):
             all_moves = []
             # do the best move for the ai
             for i, row in enumerate(board):
@@ -77,15 +73,8 @@ def gen_gui(starting_board):
                         possible_moves = valid_moves(board, (i,j), current_player)
                         for one_move in possible_moves:
                             all_moves.append(((i,j),one_move))
-                        #all_moves = valid_moves(board, (i,j), current_player)
-                        #best_move = get_best_move(board, all_moves, (i,j), current_player)
-                        # if (best_move is not None):
-                        #     starting_tuple = (i,j)
-                        #     start_end_dict[starting_tuple] = best_move
-                        #     move(board, i, j, best_move[0], best_move[1])
             
             opt_move = best_move(board, all_moves, current_player)
-            #opt_move = best_of_best(board,start_end_dict, current_player)
             move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
             findAndReplaceMarb(locations, opt_move, current_player)
             if game_over(board):
@@ -93,7 +82,8 @@ def gen_gui(starting_board):
                 print("Player ", current_player, " Wins!")
                 break
             current_player = get_next_turn(current_player)
-        if(current_player >= 4):
+        # This is for an AI playing with minimax
+        if(current_player >= 7):
             prev_goal_node = get_goal_node(board, current_player)
             eval, move_to_move = minimax(board.copy(), 2, True, float('-inf'), float('inf'), current_player, copy.deepcopy(locations), prev_goal_node)
             move(board, move_to_move[0][0], move_to_move[0][1], move_to_move[1][0], move_to_move[1][1])
@@ -131,7 +121,6 @@ def gen_gui(starting_board):
                                             break
                                         
                                         current_player = get_next_turn(current_player)
-                                        #current_player = 1
                                     else:
                                         print("Invalid move try again!")
                                     first_click = None
@@ -164,20 +153,25 @@ def gen_gui(starting_board):
         pygame.display.flip()
     return (first_play, current_player)
 
-winners = []
-for i in range(10):
-    board = boardBuilder()
-    winner = gen_gui(board)
-    winners.append(winner)
 
-print(winners)
-astar_count = 0
-minimax_count = 0
-for start, num in winners:
-    if num < 4:
-        astar_count += 1
-    else:
-        minimax_count += 1
-print("Astar won ", astar_count, " times")
-print("Minimax won ", minimax_count, " times")
+board = boardBuilder()
+gen_gui(board)
 
+# COMMENTED CODE BELOW IS TO RUN AI VS AI CONTINOUSLY AND KEEP TRACK OF WINNERS
+
+# winners = []
+# for i in range(10):
+#     board = boardBuilder()
+#     winner = gen_gui(board)
+#     winners.append(winner)
+
+# print(winners)
+# astar_count = 0
+# minimax_count = 0
+# for num in winners:
+#     if num < 4:
+#         astar_count += 1
+#     else:
+#         minimax_count += 1
+# print("Astar won ", astar_count, " times")
+# print("Minimax won ", minimax_count, " times")

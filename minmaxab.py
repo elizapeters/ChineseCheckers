@@ -3,7 +3,7 @@ from game_initialization import *
 from game_over import *
 from move import *
 import math
-from minimax import *
+from greedy import *
 import random
 import copy
 
