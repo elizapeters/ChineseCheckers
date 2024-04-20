@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 def topAndBottom(board, array, currentVal, starting_spots):
     index = 0
@@ -105,6 +106,6 @@ def boardBuilder():
     spaces(board)
     return board, starting_spots
 
-board = boardBuilder()
+starting_spots = copy.deepcopy(boardBuilder()[1])
 #print(board)
 

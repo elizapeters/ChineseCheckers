@@ -21,7 +21,6 @@ def get_next_turn(current_turn):
 def gen_gui(starting_board):
     board = starting_board[0]
     locations = starting_board[1]
-    print(locations)
     # Define colors
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -58,13 +57,14 @@ def gen_gui(starting_board):
         6: BLUE
     }
     current_player = random.randint(1, 6)
+    print(current_player)
     first_play = current_player
     first_click = None
 
     # Main loop
     while True:
         # This is for AI playing the greedy algorithm
-        if (current_player != 6):
+        if (current_player < 4):
             all_moves = []
             # do the best move for the ai
             for i, row in enumerate(board):
@@ -83,9 +83,9 @@ def gen_gui(starting_board):
                 break
             current_player = get_next_turn(current_player)
         # This is for an AI playing with minimax
-        if(current_player >= 7):
+        if(current_player > 3):
             prev_goal_node = get_goal_node(board, current_player)
-            eval, move_to_move = minimax(board.copy(), 2, True, float('-inf'), float('inf'), current_player, copy.deepcopy(locations), prev_goal_node)
+            eval, move_to_move = minimax(board.copy(), 2, True, float('-inf'), float('inf'), current_player, copy.deepcopy(locations), prev_goal_node, len(find_frozen_nodes(board, current_player)))
             move(board, move_to_move[0][0], move_to_move[0][1], move_to_move[1][0], move_to_move[1][1])
             findAndReplaceMarb(locations, move_to_move, current_player)
             current_player = get_next_turn(current_player)
@@ -154,24 +154,24 @@ def gen_gui(starting_board):
     return (first_play, current_player)
 
 
-board = boardBuilder()
-gen_gui(board)
+# board = boardBuilder()
+# gen_gui(board)
 
 # COMMENTED CODE BELOW IS TO RUN AI VS AI CONTINOUSLY AND KEEP TRACK OF WINNERS
 
-# winners = []
-# for i in range(10):
-#     board = boardBuilder()
-#     winner = gen_gui(board)
-#     winners.append(winner)
+winners = []
+for i in range(10):
+    board = boardBuilder()
+    winner = gen_gui(board)
+    winners.append(winner)
 
-# print(winners)
-# astar_count = 0
-# minimax_count = 0
-# for num in winners:
-#     if num < 4:
-#         astar_count += 1
-#     else:
-#         minimax_count += 1
-# print("Astar won ", astar_count, " times")
-# print("Minimax won ", minimax_count, " times")
+print(winners)
+astar_count = 0
+minimax_count = 0
+for num, start in winners:
+    if num < 4:
+        astar_count += 1
+    else:
+        minimax_count += 1
+print("Astar won ", astar_count, " times")
+print("Minimax won ", minimax_count, " times")

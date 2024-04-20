@@ -25,14 +25,15 @@ def findAllMoves(board, locations, player):
             return_list.append(((x, y), (one_move[0], one_move[1])))
         frozen_nodes = find_frozen_nodes(board, player)
         return_list = [pair for pair in return_list if not frozen_nodes.__contains__(pair[0])]
-    return_list.sort(key=lambda item: distance_to_goal_node(goal_node, (item[1][0], item[1][1])))
+    return_list.sort(reverse=True, key=lambda item: distance_to_goal_node(goal_node, (item[1][0], item[1][1])))
     return_list = return_list[:2]
     return return_list
 
 # Minimax with Alpha-Beta pruning
-def minimax(board, depth, maximizing_player, alpha, beta, player, locations, prev_goal_node):
+def minimax(board, depth, maximizing_player, alpha, beta, player, locations, prev_goal_node, num_start_fro):
     if depth == 0 or game_over(board):
-        return -1*calculate_distance(board, player, prev_goal_node), (0,0,0,0)
+        diff_fro = len(find_frozen_nodes(board, player)) - num_start_fro
+        return -1*calculate_distance(board, player, prev_goal_node) + diff_fro*10, (0,0,0,0)
 
     if maximizing_player:
         all_moves = []
@@ -54,7 +55,9 @@ def minimax(board, depth, maximizing_player, alpha, beta, player, locations, pre
             move(boardcc, start_node[0], start_node[1], end_node[0], end_node[1])
             locationsc = copy.deepcopy(locations)
             findAndReplaceMarb(locationsc, ((start_node[0], start_node[1]), (end_node[0], end_node[1])), player)
-            evalu, next_move = minimax(boardcc, depth - 1, False, alpha, beta, player, locationsc, get_goal_node(board, player))
+            evalu, next_move = minimax(boardcc, depth - 1, False, alpha, beta, player, locationsc, get_goal_node(board, player), num_start_fro)
+            if(starting_spots[player-1].__contains__(start_node)):
+                evalu = evalu + (5 * distance_to_goal_node(get_goal_node(board, player), start_node)/ distance_to_goal_node(get_goal_node(board, player),base_nodes_rank[player-1][0]))
             if evalu > max_eval :
                 max_move = ((start_node[0], start_node[1]), (end_node[0], end_node[1]))
                 max_eval = evalu
@@ -87,7 +90,7 @@ def minimax(board, depth, maximizing_player, alpha, beta, player, locations, pre
                             findAndReplaceMarb(locationsc, ((third[0][0], third[0][1]), (third[1][0], third[1][1])), boardc[third[1][0]][third[1][1]])
                             findAndReplaceMarb(locationsc, ((fourth[0][0], fourth[0][1]), (fourth[1][0], fourth[1][1])), boardc[fourth[1][0]][fourth[1][1]])
                             findAndReplaceMarb(locationsc, ((fifth[0][0], fifth[0][1]), (fifth[1][0], fifth[1][1])), boardc[fifth[1][0]][fifth[1][1]])
-                            evalu, next_move = minimax(boardc, depth - 1, True, alpha, beta, player, locationsc, get_goal_node(board, player))
+                            evalu, next_move = minimax(boardc, depth - 1, True, alpha, beta, player, locationsc, get_goal_node(board, player), num_start_fro)
                             if evalu < min_eval :
                                 min_move = next_move
                                 min_eval = min(min_eval, evalu)
@@ -97,20 +100,3 @@ def minimax(board, depth, maximizing_player, alpha, beta, player, locations, pre
                     if beta >= alpha:
                         break
         return min_eval, min_move
-    
-'''
-def cheaterAlgorithm(board, depth, player, locations, prev_goal_node):
-    all_moves = []
-    if depth == 0 or game_over(board):
-        
-    for p in locations:
-        if(p+1 != player):
-            for i in range(len(locations[p])):
-                x, y = locations[p][i]
-                possible_moves = valid_moves(board, (x, y), p+1)
-            for one_move in possible_moves:
-                all_moves.append(((x, y), (one_move[0], one_move[1])))
-            opt_move = best_move(board, all_moves, p+1)
-            move(board, opt_move[0][0], opt_move[0][1], opt_move[1][0], opt_move[1][1])
-            findAndReplaceMarb(locations, opt_move, p+1)
-            '''

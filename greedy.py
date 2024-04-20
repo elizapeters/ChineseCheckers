@@ -69,6 +69,8 @@ def best_move(board, all_moves, player):
         boardcc = board_copy.copy()
         move(boardcc, start_node[0], start_node[1], end_node[0], end_node[1])
         updated_distance = calculate_distance(boardcc, player, goal_node)
+        if(starting_spots[player-1].__contains__(start_node)):
+            updated_distance = updated_distance - 15
         distance_list.append(updated_distance)
     min_index = distance_list.index(min(distance_list))
     opt_pairing = all_moves[min_index]
