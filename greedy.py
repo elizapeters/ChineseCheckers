@@ -3,6 +3,7 @@ from game_initialization import *
 from game_over import *
 from move import *
 import math
+import random
 
 base_nodes_rank = [[(0,12),(1,11),(1,13),(2,10),(2,12),(2,14),(3,9),(3,11),(3,13),(3,15)], # done #player 1 goal
               [(4,0),(5,1),(4,2),(6,2),(5,3),(4,4),(7,3),(6,4),(5,5),(4,6)], #done player 2
@@ -62,7 +63,7 @@ def best_move(board, all_moves, player):
     board_copy = board.copy()
     frozen_nodes = find_frozen_nodes(board, player)
     all_moves = [pair for pair in all_moves if not frozen_nodes.__contains__(pair[0])]
-    
+    random.shuffle(all_moves)
     for pairing in all_moves:
         start_node = pairing[0]
         end_node = pairing[1]

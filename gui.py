@@ -160,7 +160,7 @@ def gen_gui(starting_board):
 # COMMENTED CODE BELOW IS TO RUN AI VS AI CONTINOUSLY AND KEEP TRACK OF WINNERS
 
 winners = []
-for i in range(10):
+for i in range(100):
     board = boardBuilder()
     winner = gen_gui(board)
     winners.append(winner)
@@ -168,10 +168,17 @@ for i in range(10):
 print(winners)
 astar_count = 0
 minimax_count = 0
-for num, start in winners:
+individual_winners = np.zeros((6, 1))
+per_start = np.zeros((6, 6, 1))
+for start, num in winners:
+    individual_winners[num-1] +=1
+    per_start[start-1][num-1] +=1
     if num < 4:
         astar_count += 1
     else:
         minimax_count += 1
 print("Astar won ", astar_count, " times")
 print("Minimax won ", minimax_count, " times")
+
+print(individual_winners)
+print(per_start)
