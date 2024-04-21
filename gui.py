@@ -64,7 +64,7 @@ def gen_gui(starting_board):
     # Main loop
     while True:
         # This is for AI playing the greedy algorithm
-        if (current_player < 4):
+        if (current_player < 3 and current_player != 6):
             all_moves = []
             # do the best move for the ai
             for i, row in enumerate(board):
@@ -83,7 +83,7 @@ def gen_gui(starting_board):
                 break
             current_player = get_next_turn(current_player)
         # This is for an AI playing with minimax
-        if(current_player > 3):
+        if(current_player > 2 and current_player != 6):
             prev_goal_node = get_goal_node(board, current_player)
             eval, move_to_move = minimax(board.copy(), 2, True, float('-inf'), float('inf'), current_player, copy.deepcopy(locations), prev_goal_node, len(find_frozen_nodes(board, current_player)))
             move(board, move_to_move[0][0], move_to_move[0][1], move_to_move[1][0], move_to_move[1][1])
