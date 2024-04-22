@@ -7,6 +7,8 @@ from move import *
 from greedy import *
 from minmaxab import *
 
+random.seed(10)
+
 def distance(p1, p2):
     """Calculate the distance between two points."""
     x1, y1 = p1
@@ -64,6 +66,7 @@ def gen_gui(starting_board):
     # Main loop
     while True:
         # This is for AI playing the greedy algorithm
+        #if (current_player < 4):
         if (current_player < 3 and current_player != 6):
             all_moves = []
             # do the best move for the ai
@@ -83,6 +86,7 @@ def gen_gui(starting_board):
                 break
             current_player = get_next_turn(current_player)
         # This is for an AI playing with minimax
+        #if(current_player > 3):
         if(current_player > 2 and current_player != 6):
             prev_goal_node = get_goal_node(board, current_player)
             eval, move_to_move = minimax(board.copy(), 2, True, float('-inf'), float('inf'), current_player, copy.deepcopy(locations), prev_goal_node, len(find_frozen_nodes(board, current_player)))
@@ -154,31 +158,37 @@ def gen_gui(starting_board):
     return (first_play, current_player)
 
 
-# board = boardBuilder()
-# gen_gui(board)
+board = boardBuilder()
+gen_gui(board)
 
 # COMMENTED CODE BELOW IS TO RUN AI VS AI CONTINOUSLY AND KEEP TRACK OF WINNERS
+'''
+def results(winners):
+    print(winners)
+    astar_count = 0
+    minimax_count = 0
+    individual_winners = np.zeros((6, 1))
+    per_start = np.zeros((6, 6, 1))
+    for start, num in winners:
+        individual_winners[num-1] +=1
+        per_start[start-1][num-1] +=1
+        if num < 4:
+            astar_count += 1
+        else:
+            minimax_count += 1
+    print("Astar won ", astar_count, " times")
+    print("Minimax won ", minimax_count, " times")
+
+    print(individual_winners)
+    print(per_start)
 
 winners = []
 for i in range(100):
     board = boardBuilder()
     winner = gen_gui(board)
     winners.append(winner)
+    if(i == 49):
+        results(winners)
 
-print(winners)
-astar_count = 0
-minimax_count = 0
-individual_winners = np.zeros((6, 1))
-per_start = np.zeros((6, 6, 1))
-for start, num in winners:
-    individual_winners[num-1] +=1
-    per_start[start-1][num-1] +=1
-    if num < 4:
-        astar_count += 1
-    else:
-        minimax_count += 1
-print("Astar won ", astar_count, " times")
-print("Minimax won ", minimax_count, " times")
-
-print(individual_winners)
-print(per_start)
+results(winners)
+'''

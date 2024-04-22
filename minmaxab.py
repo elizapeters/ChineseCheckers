@@ -7,6 +7,7 @@ from greedy import *
 import random
 import copy
 
+# this method updates the given player's location based on the move passed in
 def findAndReplaceMarb(locations, opter, player):
     for i in range(len(locations[player-1])):
         marb = locations[player-1][i]
@@ -14,7 +15,7 @@ def findAndReplaceMarb(locations, opter, player):
             locations[player-1][i] = (opter[1][0], opter[1][1])
             return
 
-
+#finds the given player's move based on the locations of their marbles
 def findAllMoves(board, locations, player):
     goal_node = get_goal_node(board, player)
     return_list = []

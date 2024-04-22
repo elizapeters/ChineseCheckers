@@ -1,6 +1,9 @@
 import numpy as np
 import copy
+# This part was complicated because of the board shape, in order to have the marbles be 
+# able to move correctly the board had to have empty spaces
 
+# Initializes the top and bottom triangles.
 def topAndBottom(board, array, currentVal, starting_spots):
     index = 0
     times = 0
@@ -29,6 +32,7 @@ def topAndBottom(board, array, currentVal, starting_spots):
                 index = index +1
         times = times+1
 
+# Initializes the 2 middle triangles across from eachother
 def middleTri(board, array, firstVal, secondVal, starting_spots):
     times = 0
     index1 = 0
@@ -90,12 +94,12 @@ def middleTri(board, array, firstVal, secondVal, starting_spots):
             board[i][j] = 0
         times = times+1
 
-
+#adds the values for valid spaces to move
 def spaces(board):
     for i in range(4, 21, 2):
         board[8][i] = 0
 
-
+#generates the board
 def boardBuilder():
     board = np.ones((17,25), dtype=int)*-1
     starting_spots = np.ones((6,10, 2), dtype=int)*-1
@@ -107,5 +111,4 @@ def boardBuilder():
     return board, starting_spots
 
 starting_spots = copy.deepcopy(boardBuilder()[1])
-#print(board)
 
