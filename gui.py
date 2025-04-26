@@ -83,12 +83,7 @@ def gen_gui(board):
                         possible_moves = valid_moves(board, (i,j), current_player)
                         for one_move in possible_moves:
                             all_moves.append(((i,j),one_move))
-                        #all_moves = valid_moves(board, (i,j), current_player)
-                        #best_move = get_best_move(board, all_moves, (i,j), current_player)
-                        # if (best_move is not None):
-                        #     starting_tuple = (i,j)
-                        #     start_end_dict[starting_tuple] = best_move
-                        #     move(board, i, j, best_move[0], best_move[1])
+
             
             opt_move = best_move(board, all_moves, current_player)
             #opt_move = best_of_best(board,start_end_dict, current_player)
